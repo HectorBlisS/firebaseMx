@@ -12,9 +12,4 @@ export const HomePageDisplay = ({props}) => {
     );
 };
 
-//HomePageDisplay.propTypes = {};
-
-const styles = {
-    name: {}
-};
 
