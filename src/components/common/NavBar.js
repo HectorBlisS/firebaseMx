@@ -34,9 +34,10 @@ class NavBar extends Component {
                             Cursos
                         </NavLink>
                         <NavLink
+                            exact
                             activeStyle={styles.active}
                             onClick={this.toggleMenu}
-                            to="/blog">
+                            to="/">
                             Blog
                         </NavLink>
                         <Link

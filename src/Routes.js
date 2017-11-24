@@ -7,6 +7,7 @@ import HomePage from './components/home/HomePage';
 import LoginPage from './components/login/LoginPage';
 import ProfilePage from './components/profile/ProfilePage';
 import CoursePage from './components/course/CoursePage';
+import CourseDetailPage from './components/course/CourseDetailPage';
 
 export const Routes = () => {
     return (
@@ -14,7 +15,8 @@ export const Routes = () => {
             <Route exact path="/" component={HomePage}/>
             <Route path="/login" component={LoginPage}/>
             <Route path="/profile" component={ProfilePage}/>
-            <Route path="/courses" component={CoursePage}/>
+            <Route exact path="/courses" component={CoursePage}/>
+            <Route path="/courses/:slug" component={CourseDetailPage}/>
         </Switch>
     );
 };

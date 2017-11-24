@@ -13,7 +13,7 @@ import 'toastr/build/toastr.css';
 export const store = configureStore();
 
 const WithRouter = () => (
-    <BrowserRouter>
+    <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
         <Provider store={store}>
             <App/>
         </Provider>
