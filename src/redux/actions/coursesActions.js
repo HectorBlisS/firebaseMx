@@ -1,6 +1,6 @@
 import firebase from '../../api/firebase';
 
-const db = firebase.database().ref("dev");
+const db = firebase.database().ref().child("dev");
 
 //get each course from firebase
 
@@ -13,13 +13,20 @@ function getCourseSuccess(course){
     }
 }
 
-export const getCourse = () => (dispatch) => {
+function listen(dispatch){
     db.child("courses")
         .on("child_added", s=>{
             let course = s.val();
             course["id"] = s.key;
-           dispatch(getCourseSuccess(course));
+            console.log(course);
+            dispatch(getCourseSuccess(course));
         });
+}
+
+export const getCourse = () => (dispatch) => {
+
+    listen(dispatch);
+
     db.child("courses")
         .on("child_changed", s=>{
             let course = s.val();

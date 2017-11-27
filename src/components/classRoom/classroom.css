@@ -1,14 +1,16 @@
 .classroom-container{
-    height: 4000px; /*quita esto*/
+    display: flex;
 }
 .classroom-nav{
     display: flex;
+    order: 1;
     flex-direction: column;
-    width: 300px;
+    min-width: 300px;
     background-color: #fafafa;
     top:0;
     position: sticky;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .classroom-nav h2, h3{
@@ -47,6 +49,23 @@
     text-align: left;
 }
 
+.classroom-video{
+    order: 2;
+}
+
 .active{
     background-color: orange!important;
+}
+
+@media(max-width: 600px) {
+    .classroom-nav {
+        width: 100%;
+        order: 2;
+    }
+    .classroom-container {
+        flex-direction: column;
+    }
+    .classroom-video{
+        order:1;
+    }
 }

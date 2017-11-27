@@ -21,15 +21,18 @@ class ClassRoomPage extends Component {
         const {course, fetched, courseId} = this.props;
         if (!fetched) return <SimpleLoader/>
         return (
-            <div style={{display:"flex"}}>
+            <div className="classroom-container">
                 <ClassRoomNav
                     {...course}
                     courseId={courseId}
                 />
-                <Switch>
-                <Route path="/classroom/:courseId/:moduleId/:videoId" component={ClassRoomVideo}/>
-                <Route render={()=><h2>Bienvenido al curso!</h2>} />
-                </Switch>
+                <div className="classroom-video">
+                    <Switch>
+                        <Route path="/classroom/:courseId/:moduleId/:videoId" component={ClassRoomVideo}/>
+                        <Route render={()=><h2>Bienvenido al curso!</h2>} />
+                    </Switch>
+
+                </div>
 
             </div>
         );

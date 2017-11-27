@@ -54,7 +54,7 @@ function mapStateToProps(state, ownProps) {
     return {
         courses: state.courses.list,
         authors: state.authors.object,
-        fetched: Object.keys(state.authors.object).length > 1
+        fetched: Object.keys(state.authors.object).length > 0
     };
 }
 

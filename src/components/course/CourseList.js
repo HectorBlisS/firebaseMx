@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {CourseListDisplay} from './CourseListDisplay';
 
 function mapStateToProps(state, ownProps) {
+
     return {
         courses: state.courses.list,
         authors: state.authors.object,

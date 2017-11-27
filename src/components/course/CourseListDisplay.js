@@ -4,11 +4,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {SimpleLoader} from "../common/SimpleLoader";
+//redux
+import {connect} from 'react-redux';
 
 //const defaultImg = "https://www.gcppodcast.com/images/icons/firebase.png"
 //const defaulUserImg = "https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:30,height:30/https://www.filepicker.io/api/file/FfKibc1hRnCM5E3HEzfx";
 
-export const CourseCard = ({autor, author, body, cover, id, isFree, price, slug, name, summary}) => (
+const CourseCard = ({autor={}, author, body, cover, id, isFree, price, slug, name, summary}) => (
     <Link style={{textDecoration:"none", color:"black"}} to={"/courses/"+slug}>
         <article className="course-list-card">
             <img className="portada" src={cover} alt="portada"/>
@@ -38,4 +40,7 @@ export const CourseListDisplay = ({courses, fetched, authors}) => {
 };
 
 
+
+
+// {courses.map(c=><CourseCard key={c.id} {...c} autor={authors[c.author]}/>)}
 
