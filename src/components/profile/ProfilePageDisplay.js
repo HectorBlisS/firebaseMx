@@ -5,6 +5,7 @@ import React from 'react';
 //import {CircularProgress} from 'material-ui';
 //import {Dialog} from 'material-ui';
 import {SimpleLoader} from "../common/SimpleLoader";
+import {CircularProgress} from 'material-ui';
 
 const defaultImg = "https://fthmb.tqn.com/cD0PNhMM0BxevlBvAgD1ntpQLac=/3558x2363/filters:fill(auto,1)/Cat-rolling-GettyImages-165893132-58ac5ef05f9b58a3c90a144f.jpg";
 const defaultPortada = "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAjrAAAAJDcyOTAwZGFmLWViN2ItNDQ2My05M2Q1LTU2MTY1NWI0ZTMwOA.jpg";
@@ -12,7 +13,7 @@ const defaultPortada = "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAjrAAAAJDcy
 let theInput;
 let secondInput;
 
-export const ProfilePageDisplay = ({logOut, loading, onChange, fetched, changePic, changeCover, onSubmit, photoURL, title, displayName, fullName, email, age, sex, facebook, twitter, github, linkedIn, bio, portada}) => {
+export const ProfilePageDisplay = ({completed, logOut, loading, onChange, fetched, changePic, changeCover, onSubmit, photoURL, title, displayName, fullName, email, age, sex, facebook, twitter, github, linkedIn, bio, portada}) => {
     if(!portada) portada = defaultPortada;
    if(!fetched) return <SimpleLoader/>;
     function clickCover(){
@@ -25,7 +26,7 @@ export const ProfilePageDisplay = ({logOut, loading, onChange, fetched, changePi
         <div>
 
             <div className="profile-portada" style={{backgroundImage:`url('${portada}')`}}>
-                <button onClick={clickCover} >{loading ? <SimpleLoader/> : "Cambiar Portada"}</button>
+                <button onClick={clickCover} >{loading ? <CircularProgress mode="determinate" value={completed}/> : "Cambiar Portada"}</button>
                 <figure>
                     <div onClick={clickPic}>
                         <span>Cambiar Foto</span>

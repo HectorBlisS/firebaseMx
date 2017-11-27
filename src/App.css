@@ -2,6 +2,7 @@
 @import './components/login/login.css';
 @import './components/profile/profile.css';
 @import './components/course/course.css';
+@import './components/management/adminUpload/admin-upload.css';
 
 .App {
   text-align: center;

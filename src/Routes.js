@@ -8,6 +8,8 @@ import LoginPage from './components/login/LoginPage';
 import ProfilePage from './components/profile/ProfilePage';
 import CoursePage from './components/course/CoursePage';
 import CourseDetailPage from './components/course/CourseDetailPage';
+//admin
+import AdminUploadPage from './components/management/adminUpload/AdminUploadPage';
 
 export const Routes = () => {
     return (
@@ -17,6 +19,7 @@ export const Routes = () => {
             <Route path="/profile" component={ProfilePage}/>
             <Route exact path="/courses" component={CoursePage}/>
             <Route path="/courses/:slug" component={CourseDetailPage}/>
+            <Route path="/admin" component={AdminUploadPage}/>
         </Switch>
     );
 };

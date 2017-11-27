@@ -11,4 +11,6 @@ const config = {
 };
 firebase.initializeApp(config);
 
+export const storage = firebase.storage();
+
 export default firebase;

@@ -22,3 +22,30 @@ export const getCourse = () => (dispatch) => {
         });
 };
 //get each course from firebase
+
+
+//save course
+
+export const saveCourse = (course) => (dispatch, getState) => {
+    let updates = {};
+    const userUid = getState().user.profile.uid;
+    course["author"] = userUid;
+    if(course.id){
+        updates[`/courses/${course.id}/`] = course;
+        updates[`/users/${userUid}/author/${course.id}`] = true;
+    }else{
+        let id = db.child("courses").push().key;
+        updates[`/courses/${id}/`] = course;
+        updates[`/users/${userUid}/author/${id}`] = true;
+    }
+    db.update(updates)
+        .then(r=>{
+            return Promise.resolve(r);
+        })
+        .catch(e=>{
+            console.log(e);
+            return Promise.reject(e.message);
+        });
+};
+
+//save course

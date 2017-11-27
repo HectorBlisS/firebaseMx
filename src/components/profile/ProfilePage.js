@@ -9,7 +9,8 @@ class ProfileContainer extends Component{
 
     state = {
         profile:{},
-        loading:false
+        loading:false,
+        completed:0
     };
 
     logOut = () => {
@@ -37,8 +38,12 @@ class ProfileContainer extends Component{
         if(file.size > 1500000) return toastr.warning("Tu imagen es muy pesada");
         this.setState({loading:true});
         let profile = this.state.profile;
-        firebase.storage().ref(this.props.usuario.uid).child("portada").put(file)
-            .then(s=>{
+        const task = firebase.storage().ref(this.props.usuario.uid).child("portada").put(file);
+        task.on("state_changed", ({bytesTransferred, totalBytes})=>{
+            const completed = (bytesTransferred / totalBytes) * 100;
+            this.setState({completed})
+        });
+        task.then(s=>{
                 profile["portada"] = s.downloadURL;
                 this.setState({profile, loading:false});
             })
@@ -50,7 +55,12 @@ class ProfileContainer extends Component{
         if(file.size > 1500000) return toastr.warning("Tu imagen es muy pesada");
         this.setState({loading:true});
         let profile = this.state.profile;
-        firebase.storage().ref(this.props.usuario.uid).child("perfilPic").put(file)
+        const task = firebase.storage().ref(this.props.usuario.uid).child("perfilPic").put(file);
+        task.on("state_changed", ({bytesTransferred, totalBytes})=>{
+            const completed = (bytesTransferred / totalBytes) * 100;
+            this.setState({completed})
+        });
+        task
             .then(s=>{
                 profile["photoURL"] = s.downloadURL;
                 this.setState({profile, loading:false});
@@ -73,10 +83,11 @@ class ProfileContainer extends Component{
     }
 
     render(){
-        const {profile, loading} = this.state;
+        const {profile, loading, completed} = this.state;
         const {fetched} = this.props;
         return(
             <ProfilePageDisplay
+                completed={completed}
                 logOut={this.logOut}
                 changePic={this.changePic}
                 loading={loading}

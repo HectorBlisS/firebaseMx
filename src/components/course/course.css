@@ -30,6 +30,7 @@
 
 .course-list-card:hover {
     box-shadow: 5px 5px 5px lightgrey;
+    border-color:orange;
 }
 
 .course-list-card h5{

@@ -20,6 +20,7 @@ function getOrCreateProfile(user, dispatch){
                 return dispatch(userLoginSuccess(profile))
             }else{
                 //console.log(s.val())
+                if(s.val().isStaff) localStorage.setItem("isStaff", true);
                 return dispatch(userLoginSuccess(s.val()))
             }
         })
@@ -104,6 +105,7 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const logOut = () => (dispatch) => {
   firebase.auth().signOut();
   localStorage.removeItem("user");
+  localStorage.removeItem("isStaff");
   dispatch({type:LOGOUT_SUCCESS})
 };
 
