@@ -145,4 +145,20 @@
 }
 
 
+.alpha{
+    color: white !important;
+    background: #ff3333 !important;
+    border-radius: 10px;
+    font-size: 15px !important;
+    transform: rotate(-25deg);
+    display: block;
+    bottom: 50px;
+    left: 0px;
+    position: absolute;
+    font-family: 'Rock Salt', cursive !important;
+    width: 100px;
+    padding: 1px 12px;
+}
+
+
 

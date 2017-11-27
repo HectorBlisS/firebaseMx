@@ -32,6 +32,7 @@ class NavBar extends Component {
                              <img src={logo} alt="logo"/>
                         </Link>
                         <span>FirebaseMx</span>
+                        <span className="alpha">Versión Alpha</span>
                     </div>
                     <div className={showMenu ? "show-menu":"noshow-menu"}>
                         {isStaff &&
