@@ -12,6 +12,9 @@ class ClassRoomPage extends Component {
 
     componentWillMount(){
         //check for permissions
+        if(!localStorage.getItem("user")){
+            this.props.history.push("/login");
+        }
     }
 
     render() {
