@@ -1,0 +1,52 @@
+.classroom-container{
+    height: 4000px; /*quita esto*/
+}
+.classroom-nav{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: #fafafa;
+    top:0;
+    position: sticky;
+    overflow-y: scroll;
+}
+
+.classroom-nav h2, h3{
+    font-weight: lighter;
+}
+
+.classroom-nav h4{
+    padding: 10px 20px;
+    width: 100%;
+    background-color: darkgrey;
+    margin: 0;
+}
+
+.classroom-nav a{
+    color:inherit;
+    text-decoration: none;
+}
+
+.classroom-nav a p{
+    margin: 0;
+    padding: 20px 10px;
+    background-color: lightgrey;
+    border-bottom: .5px solid #fafafa;
+    cursor: pointer;
+}
+
+.classroom-nav a.active{
+    color: orange;
+}
+
+.classroom-nav span{
+    padding: 0px 10px;
+}
+
+.classroom-nav div{
+    text-align: left;
+}
+
+.active{
+    background-color: orange!important;
+}

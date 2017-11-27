@@ -6,6 +6,9 @@ import {AdminCoursesList} from "./AdminCoursesList";
 import {Route} from 'react-router-dom';
 import CourseForm from './CourseForm';
 import toastr from 'toastr';
+import {FloatingActionButton} from 'material-ui';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
 
 class AdminUploadPage extends Component {
 
@@ -34,6 +37,13 @@ class AdminUploadPage extends Component {
 
                 <Route path="/admin/:id" component={CourseForm}/>
 
+                <FloatingActionButton
+                    onClick={()=>this.props.history.push("/admin/new")}
+                    backgroundColor="orange"
+                    style={{position:"fixed", bottom:40, right:40}}
+                >
+                    <ContentAdd/>
+                </FloatingActionButton>
 
             </div>
         );
@@ -44,7 +54,7 @@ function mapStateToProps(state, ownProps) {
     return {
         courses: state.courses.list,
         authors: state.authors.object,
-        fetched: Object.keys(state.authors.object).length > 1 && state.courses.list.length > 1
+        fetched: Object.keys(state.authors.object).length > 1
     };
 }
 

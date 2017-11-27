@@ -7,7 +7,7 @@ import React from 'react';
 export const AdminUploadPageDisplay = ({props}) => {
     return (
         <div>
-            BlisS
+
         </div>
     );
 };

@@ -8,14 +8,14 @@ import FontAwesome from 'react-fontawesome';
 const portada = "https://ibin.co/2t1lLdpfS06F.png";
 const elAuthor = "https://cdn-images-1.medium.com/max/1200/0*jp3IFb08Sy3_k3N_.";
 
-export const CourseDetailDisplay = ({cover, authorPhoto, name, body, modules, displayName, bio, photoURL, title}) => {
+export const CourseDetailDisplay = ({cover, authorPhoto, name, body, modules, displayName, bio, photoURL, title, id}) => {
     if(!cover) cover = portada;
     if(!authorPhoto) authorPhoto = elAuthor;
     return (
         <div>
             <section className="course-detail-container">
                 <article style={{backgroundImage:`url(${cover})`}} className="course-detail-cover">
-                    <Link style={{position:"absolute"}} className="course-action-call" to={"/classroom/"}>
+                    <Link style={{position:"absolute"}} className="course-action-call" to={"/classroom/"+id}>
                         Ingresar al curso
                     </Link>
                 </article>
@@ -59,7 +59,7 @@ export const CourseDetailDisplay = ({cover, authorPhoto, name, body, modules, di
 
                 </article>
                 <article style={{margin:50}}>
-                    <Link className="course-action-call" to={"/classroom/"}>
+                    <Link className="course-action-call" to={"/classroom/" + id}>
                         Ingresar al curso
                     </Link>
                 </article>

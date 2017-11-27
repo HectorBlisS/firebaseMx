@@ -8,12 +8,12 @@ import {SimpleLoader} from "../../common/SimpleLoader";
 //const defaultImg = "https://www.gcppodcast.com/images/icons/firebase.png"
 //const defaulUserImg = "https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:30,height:30/https://www.filepicker.io/api/file/FfKibc1hRnCM5E3HEzfx";
 
-const CourseCard = ({autor, author, body, cover, id, isFree, price, slug, name}) => (
+const CourseCard = ({autor, author, body, cover, id, isFree, price, slug, name, summary}) => (
     <Link style={{textDecoration:"none", color:"black"}} to={"/admin/"+id}>
         <article className="course-list-card">
             <img className="portada" src={cover} alt="portada"/>
             <h5>{name}</h5>
-            <p>{body}</p>
+            <p>{summary}</p>
             <div className="course-card-footer">
                 <div>
                     <img src={autor.photoURL} alt="user"/>

@@ -8,15 +8,22 @@ import logo from '../../assets/logo.png';
 class NavBar extends Component {
 
     state = {
-        showMenu:false
+        showMenu:false,
+        isStaff:false
     };
+
+    componentWillMount(){
+        const isStaff = localStorage.getItem("isStaff");
+        console.log(isStaff);
+        if(isStaff) this.setState({isStaff});
+    }
 
     toggleMenu = () => {
         this.setState({showMenu:!this.state.showMenu});
     };
 
     render() {
-        const {showMenu} = this.state;
+        const {showMenu, isStaff} = this.state;
         return (
             <div>
                 <nav className="nav-bar">
@@ -27,6 +34,15 @@ class NavBar extends Component {
                         <span>FirebaseMx</span>
                     </div>
                     <div className={showMenu ? "show-menu":"noshow-menu"}>
+                        {isStaff &&
+                        <NavLink
+                            activeStyle={styles.active}
+                            onClick={this.toggleMenu}
+                            to="/admin">
+                            Admin
+                        </NavLink>
+
+                        }
                         <NavLink
                             activeStyle={styles.active}
                             onClick={this.toggleMenu}

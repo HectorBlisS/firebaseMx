@@ -1,5 +1,6 @@
 import React from 'react';
 import {LinearProgress} from 'material-ui';
+import preview from '../../assets/preview.ico';
 
 export const CustomInput = ({label=null,onChange, name, value, required=true, placeholder, type="text", maxLength, ...rest}) => (
     <div>
@@ -19,12 +20,13 @@ export const CustomSubmit = ({value}) => (
 
 export const CustomFileInput = ({accept, onChange, value, completed}) => {
     let theInput;
-    let image = "http://www.iconarchive.com/download/i98345/dakirby309/simply-styled/Mac-Preview.ico";
+    console.log(value);
+    let image = preview;
     if (value) image = value;
     return(
         <div style={{backgroundImage:`url(${image})`}} onClick={()=>{theInput.click()}} className="custom-file-input">
             <h4>Sube tu portada</h4>
-            {completed > 0 && completed < 99 ? <span><LinearProgress mode="determinate" value={completed} color="orange" />{completed}%</span>:null}
+            {completed > 0 && completed < 99 ? <span><LinearProgress/><LinearProgress mode="determinate" value={completed} color="orange" />{completed}%</span>:null}
             <input ref={input=>theInput=input} onChange={onChange} hidden accept={accept + "/*"} type="file"/>
         </div>
     );

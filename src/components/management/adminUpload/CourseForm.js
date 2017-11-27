@@ -132,9 +132,9 @@ class CourseForm extends Component {
         let modules = Object.assign({}, this.state.modules);
         console.log(moduleId, modules[moduleId]);
         let genId = Object.keys(modules[moduleId].videos).length + 1;
-        let videoObj = {id:genId, name:video.name, ref:video.name};
+        let videoObj = {id:genId, name:video.name, reference:video.name};
         //ahora subimos el video
-        const task = storage.ref(moduleId).child(video.name).put(video);
+        const task = storage.ref(moduleId + video.name).child(video.name).put(video);
         task.on("state_changed", ({bytesTransferred, totalBytes})=>{
             let completed = Math.round( (bytesTransferred / totalBytes) * 100);
             videoObj["completed"] = completed;
@@ -156,8 +156,9 @@ class CourseForm extends Component {
 
     addModule = () => {
         let modules = Object.assign({}, this.state.modules);
-        let generatedNum = Object.keys(this.state.modules).length + 1;
-        modules[generatedNum] = {name:"added", videos:{}};
+        console.log(modules);
+        let generatedNum = Object.keys(modules).length + 1;
+        modules[generatedNum] = {name:"added", videos:{}, id:generatedNum};
         this.setState({modules});
 
         //console.log(generatedNum);
@@ -174,7 +175,7 @@ class CourseForm extends Component {
     removeVideo = (videoId, moduleId) => {
         if(window.confirm("Seguro que deceas eliminar el video?")){
             let modules = Object.assign({}, this.state.modules);
-            let videoRef = modules[moduleId].videos[videoId].ref;
+            let videoRef = modules[moduleId].videos[videoId].reference;
             delete modules[moduleId].videos[videoId];
             const task = storage.ref(moduleId).child(videoRef);
             //task.cancel();
@@ -267,7 +268,11 @@ class CourseForm extends Component {
     render() {
         const {open, modules, coverCompleted} = this.state;
         const {name="", summary="", isFree=false, price='', slug='', body='', cover} = this.state.course;
-        const modulesKeys = Object.keys(modules);
+        let modulesKeys = [];
+        if(modules)  {
+            modulesKeys = Object.keys(modules);
+
+        }
         return (
            <Dialog
                bodyStyle={{backgroundColor:"#fafafa"}}
