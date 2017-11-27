@@ -19,7 +19,7 @@ const VideoBlock = ({courseId, moduleId, name, id}) => (
 
 export const ClassRoomNav = ({courseId, name, id, modules=[]}) => {
     return (
-
+        <div className="classroom-nav-container">
             <nav className="classroom-nav">
                 <h2>{name}</h2>
                 <h3>50% completado</h3>
@@ -35,6 +35,7 @@ export const ClassRoomNav = ({courseId, name, id, modules=[]}) => {
 
 
             </nav>
+        </div>
 
     );
 };

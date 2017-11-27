@@ -1,16 +1,22 @@
 .classroom-container{
     display: flex;
 }
+
+.classroom-nav-container{
+    order: 1;
+    /*height: 4000px;*/
+}
+
 .classroom-nav{
     display: flex;
-    order: 1;
     flex-direction: column;
     min-width: 300px;
+    height: 100vh;
     background-color: #fafafa;
     top:0;
     position: sticky;
-    overflow-y: scroll;
     overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .classroom-nav h2, h3{
@@ -51,6 +57,7 @@
 
 .classroom-video{
     order: 2;
+    /*height: 200vh;*/
 }
 
 .active{
@@ -58,10 +65,14 @@
 }
 
 @media(max-width: 600px) {
-    .classroom-nav {
-        width: 100%;
+    .classroom-nav-container {
         order: 2;
     }
+
+    .classroom-nav{
+        width: 100%;
+    }
+
     .classroom-container {
         flex-direction: column;
     }
