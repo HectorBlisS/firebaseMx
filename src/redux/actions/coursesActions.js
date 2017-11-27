@@ -20,6 +20,12 @@ export const getCourse = () => (dispatch) => {
             course["id"] = s.key;
            dispatch(getCourseSuccess(course));
         });
+    db.child("courses")
+        .on("child_changed", s=>{
+            let course = s.val();
+            course["id"] = s.key;
+            dispatch(getCourseSuccess(course));
+        });
 };
 //get each course from firebase
 
@@ -38,7 +44,7 @@ export const saveCourse = (course) => (dispatch, getState) => {
         updates[`/courses/${id}/`] = course;
         updates[`/users/${userUid}/author/${id}`] = true;
     }
-    db.update(updates)
+    return db.update(updates)
         .then(r=>{
             return Promise.resolve(r);
         })

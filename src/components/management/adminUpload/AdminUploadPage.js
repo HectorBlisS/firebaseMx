@@ -31,8 +31,9 @@ class AdminUploadPage extends Component {
                     authors={authors}
                 />
 
+
                 <Route path="/admin/:id" component={CourseForm}/>
-                <Route path="/admin/new" component={CourseForm}/>
+
 
             </div>
         );
@@ -43,7 +44,7 @@ function mapStateToProps(state, ownProps) {
     return {
         courses: state.courses.list,
         authors: state.authors.object,
-        fetched: Object.keys(state.authors.object).length >= state.courses.list.length
+        fetched: Object.keys(state.authors.object).length > 1 && state.courses.list.length > 1
     };
 }
 

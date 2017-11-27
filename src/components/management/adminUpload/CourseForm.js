@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Dialog, Checkbox, LinearProgress} from 'material-ui';
-import {CustomInput, CustomTextArea, CustomSubmit} from "../../common/Inputs";
+import {CustomInput, CustomTextArea, CustomSubmit, CustomFileInput} from "../../common/Inputs";
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Visibility from 'material-ui/svg-icons/action/visibility';
@@ -41,7 +41,7 @@ const ModuleContainer = ({name, videos={}, removeModule, removeVideo, id, upload
                                   placeholder="Nombre del video"
                                   value={videos[k].name} />
                                <LinearProgress
-                                   color="orange"
+                                   color={videos[k].completed === 100 ? "black":"orange"}
                                 value={videos[k].completed}
                                 mode="determinate"
                                /> {videos[k].completed}%
@@ -82,27 +82,55 @@ class CourseForm extends Component {
                     }
                 }
             }
-        }
+        },
+        coverCompleted:0
     };
 
     componentDidMount(){
         this.setState({
-            course:this.props.course
+            course:this.props.course,
+            modules:this.props.modules
         });
     }
 
     componentWillReceiveProps(p){
         this.setState({
-            course:p.course
+            course:p.course,
+            modules:p.modules
         });
     }
 
+    uploadCover = (e) => {
+        const cover = e.target.files[0];
+        console.log(cover);
+        let course = Object.assign({}, this.state.course);
+        //primero borramos la anterior
+        if(course.coverRef) storage.ref("covers").child(course.coverRef).delete();
+        //luego asignamos la nueva
+        course["coverRef"] = cover.name;
+        //subimos
+        const task = storage.ref("covers").child(cover.name).put(cover);
+        task.on("state_changed", ({bytesTransferred, totalBytes})=>{
+            let coverCompleted = Math.round( (bytesTransferred / totalBytes) * 100);
+            this.setState({coverCompleted});
+        });
+        task.then(s=>{
+            course["cover"] = s.downloadURL;
+            toastr.success("Tu portada se subió");
+            this.setState({course});
+        })
+            .catch(e=>toastr.error(e.message));
 
+
+
+
+    };
 
     uploadVideo = (e, moduleId) => {
         const video = e.target.files[0];
         //Primero creamos un nuevo objeto video
         let modules = Object.assign({}, this.state.modules);
+        console.log(moduleId, modules[moduleId]);
         let genId = Object.keys(modules[moduleId].videos).length + 1;
         let videoObj = {id:genId, name:video.name, ref:video.name};
         //ahora subimos el video
@@ -120,6 +148,7 @@ class CourseForm extends Component {
            //asignamos el video a su lugar
             modules[moduleId].videos[genId] = videoObj;
             //y actualizamos el state
+            toastr.success("Tu video se ha subido");
            this.setState({modules});
         }).catch(e=>toastr.error(e.message));
 
@@ -148,6 +177,7 @@ class CourseForm extends Component {
             let videoRef = modules[moduleId].videos[videoId].ref;
             delete modules[moduleId].videos[videoId];
             const task = storage.ref(moduleId).child(videoRef);
+            //task.cancel();
             task.delete();
             this.setState({modules});
         }
@@ -176,6 +206,7 @@ class CourseForm extends Component {
         const value = e.target.value;
         const course = Object.assign({}, this.state.course);
         course[field] = value;
+        //console.log(course);
         this.setState({course});
 
         //On price
@@ -222,15 +253,20 @@ class CourseForm extends Component {
         e.preventDefault();
         if(this.validateForm()){
             let course = Object.assign({}, this.state.course);
+            course["modules"] = Object.assign({}, this.state.modules);
+
             this.props.saveCourse(course)
-                .then(()=>this.props.history.goBack())
+                .then(()=>{
+                this.props.history.goBack();
+                toastr.success("Se guardó")
+                })
                 .catch(e=>toastr.error(e.message));
         }
     };
 
     render() {
-        const {open, modules} = this.state;
-        const {dialogTitle="Edita tu curso", name="", summary="", isFree=false, price='', slug=''} = this.state.course;
+        const {open, modules, coverCompleted} = this.state;
+        const {name="", summary="", isFree=false, price='', slug='', body='', cover} = this.state.course;
         const modulesKeys = Object.keys(modules);
         return (
            <Dialog
@@ -239,7 +275,7 @@ class CourseForm extends Component {
                contentStyle={{width:"100%"}}
                 open={open}
                 autoScrollBodyContent={true}
-                title={dialogTitle}
+                title={name ? name:"Agrega un nuevo curso"}
            >
                <form onSubmit={this.submitCourse} className="form-container">
                    <CustomInput
@@ -248,6 +284,12 @@ class CourseForm extends Component {
                        name="name"
                        onChange={this.onChangeText}
                        value={name}
+                   />
+                   <CustomFileInput
+                       completed={coverCompleted}
+                        accept="image"
+                        value={cover}
+                       onChange={this.uploadCover}
                    />
                    <CustomInput
                        disabled
@@ -266,12 +308,15 @@ class CourseForm extends Component {
                    <CustomTextArea
                        name="body"
                        placeholder="Descripción del curso"
+                       onChange={this.onChangeText}
+                       value={body}
                    />
                    <Checkbox
                        checkedIcon={<ActionFavorite />}
                        uncheckedIcon={<ActionFavoriteBorder />}
                        label="¿Este curso es gratuito?"
                        onCheck={this.onCheck}
+                       checked={isFree}
                    />
                    {!isFree &&
                         <CustomInput
@@ -321,10 +366,21 @@ class CourseForm extends Component {
 
 function mapStateToProps(state, ownProps) {
     const id = ownProps.match.params.id;
-    let course = {};
-    if(id) course = state.courses.list.find(c=>c.id == id); //== pa que no falle
+    let course = {modules:{}};
+    let modules = {};
+    if(id !== "new") {
+        course = state.courses.list.find(c=>c.id === id); //== pa que no falle
+    }
+    if(course === undefined) {
+        course = {modules:{}};
+        modules = {};
+    }else{
+        modules = course.modules;
+    }
+    //console.log(id, course);
     return {
-        course: course
+        course,
+        modules
     };
 }
 
