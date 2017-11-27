@@ -83,7 +83,8 @@ class CourseForm extends Component {
                 }
             }
         },
-        coverCompleted:0
+        coverCompleted:0,
+        dirty:false
     };
 
     componentDidMount(){
@@ -186,8 +187,17 @@ class CourseForm extends Component {
     };
 
     onRequestClose = () => {
-        if(window.confirm("Si sales de la pagina se perderán los datos"))
+        if(this.state.dirty){
+          if( window.confirm("Si sales de la pagina se perderán los datos")){
             this.props.history.goBack();
+          }else{
+            return;
+          }
+        }
+          
+            
+        this.props.history.goBack();
+          
     };
 
     changeModuleName = (e, moduleId) => {
@@ -203,6 +213,7 @@ class CourseForm extends Component {
     };
 
     onChangeText = (e) => {
+        this.setState({dirty:true});
         const field = e.target.name;
         const value = e.target.value;
         const course = Object.assign({}, this.state.course);
